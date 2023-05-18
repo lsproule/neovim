@@ -5,7 +5,7 @@ function M.generate_button(callback, opts)
   local set = {
     type = "button",
     on_press = callback,
-    val = ("%s%s%s"):format(opts.icon.value, (" "):rep(opts.spacing or 2), opts.label.value),
+    val = ("%s%s"):format((" "):rep(opts.spacing or 2), opts.label.value),
     opts = {
       position = vim.F.if_nil(opts.align, "center"),
       shortcut = vim.F.if_nil(opts.shortcut.value, "DUMMY"),
@@ -29,12 +29,12 @@ function M.generate_button(callback, opts)
     set.opts.shortcut = set.opts.shortcut .. " "
   end
 
-  local icon_length = opts.icon.value:len()
+  -- local icon_length = opts.icon.value:len()
   local label_length = opts.label.value:len()
-  set.opts.hl = {
-    { opts.icon.hl, 1, icon_length },
-    { opts.label.hl, icon_length + opts.spacing, icon_length + (opts.spacing or 2) + label_length },
-  }
+  -- set.opts.hl = {
+  --   { opts.icon.hl,  1,                          icon_length },
+  --   { opts.label.hl, icon_length + opts.spacing, icon_length + (opts.spacing or 2) + label_length },
+  -- }
 
   return set
 end
@@ -55,7 +55,7 @@ function M.button_map(labels, actions)
         spacing = 2,
         shortcut = { value = " T ", align = "right", hl = "AlphaKeyPrefix", lead = " ", trail = " " },
         label = { value = current_label, hl = "MoreMsg" },
-        icon = { value = " ", hl = "MsgSeparator" },
+        -- icon = { value = " ", hl = "MsgSeparator" },
       })
     )
     index = index - 1

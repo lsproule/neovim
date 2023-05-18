@@ -17,8 +17,8 @@ require("lazy").setup({ "goolord/alpha-nvim" })
 
 require("scratch.alpha").commands()
 
-vim.keymap.set("n", "<UP>", ":CommandUp <cr>")
-vim.keymap.set("n", "<Down>", ":CommandDown<cr>")
-vim.keymap.set("n", "<Left>", ":CommandLeft<cr>")
-vim.keymap.set("n", "<Right>", ":CommandRight<cr>")
+vim.keymap.set("n", "<leader><UP>", ":CommandUp <cr>")
+vim.keymap.set("n", "<leader><Down>", ":CommandDown<cr>")
+vim.keymap.set("n", "<leader><Left>", ":CommandLeft<cr>")
+vim.keymap.set("n", "<leader><Right>", ":CommandRight<cr>")
 vim.cmd.CommandHome()

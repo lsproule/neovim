@@ -10,6 +10,6 @@ return {
 			end,
 		},
 	},
-	"OCTOPI",
+	"LUCAS",
 	true,
 }
