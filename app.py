@@ -2,6 +2,7 @@
 import argparse
 from flask import Flask, render_template
 from flask_socketio import SocketIO
+from flask_cors import CORS
 import pty
 import os
 import subprocess
@@ -18,10 +19,11 @@ logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 app = Flask(__name__, template_folder=".",
             static_folder=".", static_url_path="")
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.config["SECRET_KEY"] = "secret!"
 app.config["fd"] = None
 app.config["child_pid"] = None
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins=["*"])
 
 
 def set_winsize(fd, row, col, xpix=0, ypix=0):

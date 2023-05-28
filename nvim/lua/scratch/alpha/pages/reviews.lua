@@ -1,9 +1,9 @@
 return {
 	{
-		{ "Hello", "World" },
+		{ "Your", "World" },
 		{
 			function()
-				print("hello")
+				print("Your")
 			end,
 			function()
 				print("world")

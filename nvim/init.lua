@@ -13,11 +13,15 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ "goolord/alpha-nvim" })
+require("lazy").setup({
+	"goolord/alpha-nvim",
+	"MunifTanjim/nui.nvim",
+})
 
 require("scratch.alpha").commands()
 
 vim.keymap.set("n", "<leader><UP>", ":CommandUp <cr>")
+vim.keymap.set("n", "<leader>h", vim.cmd.CommandHome)
 vim.keymap.set("n", "<leader><Down>", ":CommandDown<cr>")
 vim.keymap.set("n", "<leader><Left>", ":CommandLeft<cr>")
 vim.keymap.set("n", "<leader><Right>", ":CommandRight<cr>")
