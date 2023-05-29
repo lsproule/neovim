@@ -5,7 +5,7 @@ import { SearchAddon } from "xterm-addon-search";
 import { io } from "socket.io-client";
 import { useRef, useEffect } from "react";
 import "./Termainal.css";
-
+import "xterm/css/xterm.css";
 type Props = {};
 
 export default function MyTerminal({ }: Props) {
@@ -19,43 +19,40 @@ export default function MyTerminal({ }: Props) {
     scrollback: 1,
   });
   term.attachCustomKeyEventHandler(customKeyEventHandler);
-  //const fit = new FitAddon();
-  //term.loadAddon(fit);
+  const fit = new FitAddon();
+  term.loadAddon(fit);
   term.loadAddon(new WebLinksAddon());
   term.loadAddon(new SearchAddon());
 
+  const socket = io("localhost:5000/pty");
   useEffect(() => {
     term.open(TerminalRef.current as HTMLDivElement);
+    term.resize(150, 30);
   }, []);
-  //fit.fit();
-  term.resize(150, 150);
+  useEffect(() => {
+    return () => {
+      socket.disconnect(), [];
+    };
+  });
+  fit.fit();
   console.log(`size: ${term.cols} columns, ${term.rows} rows`);
   //fit.fit();
-  term.writeln("Welcome to Lucas's website");
-  term.writeln("type help to see more");
 
   term.onData((data) => {
     console.log("browser terminal received new data:", data);
     socket.emit("pty-input", { input: data });
   });
 
-  const socket = io("localhost:5000/pty");
-
   socket.on("pty-output", function(data) {
     console.log("new output received from server:", data.output);
     term.write(data.output);
+    console.log(data.output);
   });
   socket.on("connect", () => {
-    fitToscreen();
     // TODO: set connect on in react
   });
   socket.on("disconnect", () => { });
-  function fitToscreen() {
-    //fit.fit();
-    const dims = { cols: 200, rows: 200 }; //{ cols: term.cols, rows: term.rows };
-    console.log("sending new dimensions to server's pty", dims);
-    socket.emit("resize", dims);
-  }
+
   // function debounce(func:any, wait_ms:Number) {
   //   let timeout:any;
   //   return function(...args:any) {
@@ -87,5 +84,24 @@ export default function MyTerminal({ }: Props) {
   }
   //const wait_ms = 50;
   //window.onresize = () => fitToscreen();
-  return <div ref={TerminalRef}></div>;
+  return (
+    <div
+      style={{
+        position: "static",
+        width: "100%",
+        height: "10rem",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}
+        ref={TerminalRef}
+      ></div>
+    </div>
+  );
 }
