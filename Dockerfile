@@ -8,4 +8,4 @@ RUN export USER=root
 COPY ./nvim /root/.config/nvim
 COPY ./.local /root/.local
 EXPOSE 5000
-CMD ["python", "app.py", "--command", "nvim"]
+CMD ["python", "app.py", "--command", "/bin/bash"]
